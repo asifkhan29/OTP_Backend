@@ -26,7 +26,7 @@ public class OtpController {
     public Flux<ServerSentEvent<Map<String, Object>>> generateOtp(
             @RequestParam(defaultValue = "6") int digits) {
 
-        return Flux.interval(Duration.ZERO, Duration.ofSeconds(30)) // Task 1: 30s refresh [cite: 16]
+        return Flux.interval(Duration.ZERO, Duration.ofSeconds(30)) 
                 .flatMap(tick -> otpService.generateOtp(digits))
                 .map(otpEntity -> {
                     Map<String, Object> data = new HashMap<>();
@@ -36,7 +36,7 @@ public class OtpController {
                     data.put("validForSeconds", 30); // Task 2: 30s expiry
 
                     return ServerSentEvent.<Map<String, Object>>builder()
-                            .event("otp") // <--- CRITICAL: Must match .addEventListener('otp') in Angular
+                            .event("otp") 
                             .data(data)
                             .build();
                 });
